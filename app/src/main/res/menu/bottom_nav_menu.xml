@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/weekly"
+        android:icon="@drawable/ic_ac_unit_black_24dp"
+        android:title="Concerts" />
+
+    <item
+        android:id="@+id/unlocked"
+        android:icon="@drawable/ic_music_note_black_24dp"
+        android:title="Instruments" />
+
+
+    <item
+        android:id="@+id/wildlife"
+        android:icon="@drawable/ic_event_available_black_24dp"
+        android:title="Events" />
+
+    <item
+        android:id="@+id/scenes"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Casual" />
+
+
+    <item
+        android:id="@+id/locked"
+        android:icon="@drawable/ic_wc_black_24dp"
+        android:title="Family" />
+
+</menu>
