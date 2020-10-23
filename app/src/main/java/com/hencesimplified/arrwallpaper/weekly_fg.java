@@ -44,19 +44,19 @@ public class weekly_fg extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root=inflater.inflate(R.layout.fragment_weekly_fg, container, false);
+        View root = inflater.inflate(R.layout.fragment_weekly_fg, container, false);
 
 
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        listPhotos=new ArrayList<>();
-        myrv=root.findViewById(R.id.recycler_id);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        listPhotos = new ArrayList<>();
+        myrv = root.findViewById(R.id.recycler_id);
         myrv.setHasFixedSize(true);
-        myrv.setLayoutManager(new GridLayoutManager(getContext(),3));
-        myAdap = new RecyclerViewAdapter(getContext(),listPhotos);
+        myrv.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        myAdap = new RecyclerViewAdapter(getContext(), listPhotos);
 
         SharedPreferences pref = getContext().getSharedPreferences("ArrPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("ArrPage",1);
+        editor.putInt("ArrPage", 1);
         editor.apply();
 
         databaseReference = firebaseDatabase.getReference("concert");

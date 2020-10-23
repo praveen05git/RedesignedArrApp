@@ -14,19 +14,18 @@ public class about extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
-        Intent page_intent=new Intent(about.this,MainActivity.class);
+        Intent page_intent = new Intent(about.this, MainActivity.class);
         startActivity(page_intent);
         return true;
     }
 
     @Override
 
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         finish();
-        Intent page_intent=new Intent(about.this,MainActivity.class);
+        Intent page_intent = new Intent(about.this, MainActivity.class);
         startActivity(page_intent);
     }
 

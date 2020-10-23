@@ -32,7 +32,7 @@ public class photo_view extends AppCompatActivity {
 
     private ImageView sample_img;
     private String url_img;
-    private Button btn_download,btn_setwall;
+    private Button btn_download, btn_setwall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +41,11 @@ public class photo_view extends AppCompatActivity {
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
 
-        btn_download=findViewById(R.id.btn_download);
-        btn_setwall=findViewById(R.id.btn_setwall);
-        sample_img=findViewById(R.id.imageView);
-        Intent intent=getIntent();
-        url_img=intent.getStringExtra("img_url");
+        btn_download = findViewById(R.id.btn_download);
+        btn_setwall = findViewById(R.id.btn_setwall);
+        sample_img = findViewById(R.id.imageView);
+        Intent intent = getIntent();
+        url_img = intent.getStringExtra("img_url");
         Load_img(url_img);
 
         btn_download.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class photo_view extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog alert_dia1=new androidx.appcompat.app.AlertDialog.Builder(photo_view.this).create();
+                AlertDialog alert_dia1 = new androidx.appcompat.app.AlertDialog.Builder(photo_view.this).create();
                 alert_dia1.setTitle("Set as Wallpaper?");
                 alert_dia1.setMessage("Are you sure to set this picture as wallpaper?");
 
@@ -85,14 +85,12 @@ public class photo_view extends AppCompatActivity {
         });
     }
 
-    private void Load_img(String url)
-    {
+    private void Load_img(String url) {
         Picasso.get().load(url).into(sample_img);
     }
 
-    private Target getTarget(final String url)
-    {
-        Target target=new Target() {
+    private Target getTarget(final String url) {
+        Target target = new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
 
@@ -101,13 +99,13 @@ public class photo_view extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        String state= Environment.getExternalStorageState();
-                        if(Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        String state = Environment.getExternalStorageState();
+                        if (Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                             File sdCard = Environment.getExternalStorageDirectory();
-                            String folder_main = "Arr Wallpaper";
+                            String folder_main = "ARR Galaxy";
 
-                            File f = new File(Environment.getExternalStorageDirectory()+"/"+folder_main);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/" + folder_main);
 
                             if (!f.exists()) {
                                 f.mkdirs();
@@ -116,7 +114,7 @@ public class photo_view extends AppCompatActivity {
                             try {
 
                                 String uniqueID = UUID.randomUUID().toString();
-                                File file=new File(f.getPath()+"/"+uniqueID+".jpg");
+                                File file = new File(f.getPath() + "/" + uniqueID + ".jpg");
                                 FileOutputStream ostream = new FileOutputStream(file);
                                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
                                 ostream.flush();
@@ -133,7 +131,7 @@ public class photo_view extends AppCompatActivity {
                     }
                 }).start();
 
-                Toast.makeText(getApplicationContext(),"Downloaded and saved in Internal Storage->ARR Galaxy",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Downloaded and saved in Internal Storage->ARR Galaxy", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -150,19 +148,17 @@ public class photo_view extends AppCompatActivity {
         return target;
     }
 
-    private Target setWall(final String setUrl)
-    {
-        Target setwallTarget=new Target() {
+    private Target setWall(final String setUrl) {
+        Target setwallTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                WallpaperManager manager=WallpaperManager.getInstance(getApplicationContext());
-                try{
+                WallpaperManager manager = WallpaperManager.getInstance(getApplicationContext());
+                try {
                     manager.setBitmap(bitmap);
-                    Toast.makeText(getApplicationContext(),"Wallpaper applied",Toast.LENGTH_SHORT).show();
-                }catch (Exception e)
-                {
-                    Toast.makeText(getApplicationContext(),"Error Occurred",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Wallpaper applied", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -181,24 +177,22 @@ public class photo_view extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
-        overridePendingTransition(R.anim.right_enter,R.anim.left_out);
+        overridePendingTransition(R.anim.right_enter, R.anim.left_out);
         return true;
     }
 
-    public boolean checkPermission(String permission)
-    {
-        ActivityCompat.requestPermissions(photo_view.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        int check= ContextCompat.checkSelfPermission(this,permission);
-        return (check== PackageManager.PERMISSION_GRANTED);
+    public boolean checkPermission(String permission) {
+        ActivityCompat.requestPermissions(photo_view.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        int check = ContextCompat.checkSelfPermission(this, permission);
+        return (check == PackageManager.PERMISSION_GRANTED);
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         finish();
-        overridePendingTransition(R.anim.right_enter,R.anim.left_out);
+        overridePendingTransition(R.anim.right_enter, R.anim.left_out);
     }
 
 }

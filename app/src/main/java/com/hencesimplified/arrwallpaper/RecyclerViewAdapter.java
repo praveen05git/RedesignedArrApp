@@ -21,8 +21,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<sample_photos> mdata;
 
     public RecyclerViewAdapter(Context context, List<sample_photos> listBook) {
-        mcontext=context;
-        mdata=listBook;
+        mcontext = context;
+        mdata = listBook;
     }
 
 
@@ -31,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public MyViewFolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         LayoutInflater minflater = LayoutInflater.from(mcontext);
-        view = minflater.inflate(R.layout.cardview_layout_photos,parent,false);
+        view = minflater.inflate(R.layout.cardview_layout_photos, parent, false);
         return new MyViewFolder(view);
     }
 
@@ -40,22 +40,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.tv_book_title.setText(mdata.get(position).getName());
 
-         Picasso.get()
+        Picasso.get()
                 .load(mdata.get(position).getUrl())
                 .fit()
                 .centerCrop()
                 .into(holder.book_thumbnil);
 
-         holder.cardView.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 String img= mdata.get(position).getUrl();
-                 Intent PhotoIntent = new Intent(mcontext, photo_view.class);
-                 PhotoIntent.putExtra("img_url", img);
-                 mcontext.startActivity(PhotoIntent);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String img = mdata.get(position).getUrl();
+                Intent PhotoIntent = new Intent(mcontext, photo_view.class);
+                PhotoIntent.putExtra("img_url", img);
+                mcontext.startActivity(PhotoIntent);
 
-             }
-         });
+            }
+        });
 
 
     }
@@ -65,16 +65,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mdata.size();
     }
 
-    public static class MyViewFolder extends RecyclerView.ViewHolder{
+    public static class MyViewFolder extends RecyclerView.ViewHolder {
         TextView tv_book_title;
         ImageView book_thumbnil;
         CardView cardView;
 
         public MyViewFolder(@NonNull View itemView) {
             super(itemView);
-            tv_book_title =  itemView.findViewById(R.id.photo_title_id);
-            book_thumbnil= itemView.findViewById(R.id.photo_image_id) ;
-            cardView=itemView.findViewById(R.id.cardview_id);
+            tv_book_title = itemView.findViewById(R.id.photo_title_id);
+            book_thumbnil = itemView.findViewById(R.id.photo_image_id);
+            cardView = itemView.findViewById(R.id.cardview_id);
 
         }
     }
