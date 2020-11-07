@@ -9,7 +9,7 @@ Setup or Download Free and exclusive A.R.Rahman High-Quality wallpapers!!
 * Fresh Wallpapers are updated regularly
 * Wallpapers are stored in Cloud which makes apps lightweight and easy to use
 
-<b>Categories:<b>
+<b>Categories:</b>
 * Concert Wallpapers
 * ARR along with instruments
 * ARR Events wallpapers
