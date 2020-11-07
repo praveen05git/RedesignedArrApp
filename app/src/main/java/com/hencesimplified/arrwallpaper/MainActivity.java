@@ -37,19 +37,19 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.weekly:
-                    fragment = new weekly_fg();
+                    fragment = new WeeklyFragment();
                     break;
                 case R.id.unlocked:
-                    fragment = new unlocked_fg();
+                    fragment = new UnlockedFragment();
                     break;
                 case R.id.locked:
-                    fragment = new locked_fg();
+                    fragment = new LockedFragment();
                     break;
                 case R.id.wildlife:
-                    fragment = new photographer1_fg();
+                    fragment = new Photographer1Fragment();
                     break;
                 case R.id.scenes:
-                    fragment = new Photographer2_fg();
+                    fragment = new Photographer2Fragment();
                     break;
             }
             return loadFragment(fragment);
@@ -68,22 +68,22 @@ public class MainActivity extends AppCompatActivity {
         int page = preferences.getInt("ArrPage", -1);
 
         if (page == 1) {
-            loadFragment(new weekly_fg());
+            loadFragment(new WeeklyFragment());
             navView.setSelectedItemId(R.id.weekly);
         } else if (page == 2) {
-            loadFragment(new unlocked_fg());
+            loadFragment(new UnlockedFragment());
             navView.setSelectedItemId(R.id.unlocked);
         } else if (page == 3) {
-            loadFragment(new photographer1_fg());
+            loadFragment(new Photographer1Fragment());
             navView.setSelectedItemId(R.id.wildlife);
         } else if (page == 4) {
-            loadFragment(new Photographer2_fg());
+            loadFragment(new Photographer2Fragment());
             navView.setSelectedItemId(R.id.scenes);
         } else if (page == 5) {
-            loadFragment(new locked_fg());
+            loadFragment(new LockedFragment());
             navView.setSelectedItemId(R.id.locked);
         } else {
-            loadFragment(new weekly_fg());
+            loadFragment(new WeeklyFragment());
             navView.setSelectedItemId(R.id.weekly);
         }
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent page_intent = new Intent(MainActivity.this, information.class);
+                Intent page_intent = new Intent(MainActivity.this, InformationActivity.class);
                 startActivity(page_intent);
             }
         });
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.opt_about:
                 finish();
-                Intent page_intent = new Intent(this, about.class);
+                Intent page_intent = new Intent(this, AboutActivity.class);
                 startActivity(page_intent);
                 return true;
 

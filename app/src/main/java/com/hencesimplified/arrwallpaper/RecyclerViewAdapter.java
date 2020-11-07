@@ -18,9 +18,9 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewFolder> {
     private Context mcontext;
-    private List<sample_photos> mdata;
+    private List<SamplePhotos> mdata;
 
-    public RecyclerViewAdapter(Context context, List<sample_photos> listBook) {
+    public RecyclerViewAdapter(Context context, List<SamplePhotos> listBook) {
         mcontext = context;
         mdata = listBook;
     }
@@ -50,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 String img = mdata.get(position).getUrl();
-                Intent PhotoIntent = new Intent(mcontext, photo_view.class);
+                Intent PhotoIntent = new Intent(mcontext, PhotoViewActivity.class);
                 PhotoIntent.putExtra("img_url", img);
                 mcontext.startActivity(PhotoIntent);
 
