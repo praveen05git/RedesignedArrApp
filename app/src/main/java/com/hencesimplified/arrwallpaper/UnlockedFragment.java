@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnlockedFragment extends Fragment {
+public class    UnlockedFragment extends Fragment {
 
     private List<SamplePhotos> listPhotos;
     private RecyclerView myrv;
