@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,12 +39,10 @@ public class PhotoViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-try {
     if (getArguments() != null) {
         imageUrl = PhotoViewFragmentArgs.fromBundle(getArguments()).getPhotoUrl();
     }
-}catch (Exception e){
-    e.printStackTrace();}
+        Toast.makeText(getContext(),imageUrl,Toast.LENGTH_LONG).show();
 /*
         downloadButton = view.findViewById(R.id.downloadButton);
         setWallpaperButton = view.findViewById(R.id.setWallpaperButton);

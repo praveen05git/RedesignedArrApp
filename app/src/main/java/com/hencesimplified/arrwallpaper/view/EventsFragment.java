@@ -64,9 +64,7 @@ public class EventsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                    EventsFragmentDirections.ActionPhotos action = EventsFragmentDirections.actionPhotos();
-                    action.setPhotoUrl("hello");
-                    Navigation.findNavController(button).navigate(action);
+
             }
         });
 

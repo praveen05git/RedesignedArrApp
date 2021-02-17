@@ -57,13 +57,10 @@ public class PhotosViewAdapter extends RecyclerView.Adapter<PhotosViewAdapter.Ph
             @Override
             public void onClick(View view) {
                 String img = photosList.get(position).getUrl();
-/*
+
                 EventsFragmentDirections.ActionPhotos action = EventsFragmentDirections.actionPhotos();
-                        //EventsFragmentDirections.actionPhotos();
                 action.setPhotoUrl(img);
                 Navigation.findNavController(photoCardView).navigate(action);
-
-*/
             }
         });
 
