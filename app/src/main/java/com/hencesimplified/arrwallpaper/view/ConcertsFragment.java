@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.view;
 
 
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hencesimplified.arrwallpaper.R;
+import com.hencesimplified.arrwallpaper.model.SamplePhotos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class    UnlockedFragment extends Fragment {
+public class ConcertsFragment extends Fragment {
 
     private List<SamplePhotos> listPhotos;
     private RecyclerView myrv;
@@ -34,7 +36,8 @@ public class    UnlockedFragment extends Fragment {
     private DatabaseReference databaseReference;
     private RecyclerViewAdapter myAdap;
 
-    public UnlockedFragment() {
+
+    public ConcertsFragment() {
         // Required empty public constructor
     }
 
@@ -43,23 +46,22 @@ public class    UnlockedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_unlocked_fg, container, false);
+        View root = inflater.inflate(R.layout.fragment_concerts, container, false);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         listPhotos = new ArrayList<>();
-        myrv = root.findViewById(R.id.unlocked_rec_id);
+        myrv = root.findViewById(R.id.recycler_id);
         myrv.setHasFixedSize(true);
         myrv.setLayoutManager(new GridLayoutManager(getContext(), 3));
         myAdap = new RecyclerViewAdapter(getContext(), listPhotos);
 
         SharedPreferences pref = getContext().getSharedPreferences("ArrPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("ArrPage", 2);
+        editor.putInt("ArrPage", 1);
         editor.apply();
 
-        databaseReference = firebaseDatabase.getReference("instruments");
-
+        databaseReference = firebaseDatabase.getReference("concert");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,6 +85,5 @@ public class    UnlockedFragment extends Fragment {
 
         return root;
     }
-
 
 }

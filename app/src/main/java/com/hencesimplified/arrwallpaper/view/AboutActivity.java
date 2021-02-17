@@ -1,9 +1,11 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.hencesimplified.arrwallpaper.R;
 
 public class AboutActivity extends AppCompatActivity {
 

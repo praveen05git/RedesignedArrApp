@@ -14,10 +14,10 @@
         android:roundIcon="@mipmap/arr_white"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InformationActivity"></activity>
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".PhotoViewActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.InformationActivity"></activity>
+        <activity android:name=".view.AboutActivity" />
+        <activity android:name=".view.PhotoViewActivity" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

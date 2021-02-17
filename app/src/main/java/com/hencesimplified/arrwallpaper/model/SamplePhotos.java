@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.model;
 
 public class SamplePhotos {
     private String name;

@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.view;
 
 import android.Manifest;
 import android.app.WallpaperManager;
@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.hencesimplified.arrwallpaper.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 

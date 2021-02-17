@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.view;
 
 
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hencesimplified.arrwallpaper.R;
+import com.hencesimplified.arrwallpaper.model.SamplePhotos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +28,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LockedFragment extends Fragment {
+public class FamilyFragment extends Fragment {
 
     private List<SamplePhotos> listPhotos;
-    private RecyclerView myrv;
+    private RecyclerView recyclerView;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private RecyclerViewAdapter myAdap;
+    private RecyclerViewAdapter photosViewAdapter;
 
 
-    public LockedFragment() {
+    public FamilyFragment() {
         // Required empty public constructor
     }
 
@@ -44,15 +46,15 @@ public class LockedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_locked_fg, container, false);
+        View root = inflater.inflate(R.layout.fragment_family, container, false);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         listPhotos = new ArrayList<>();
-        myrv = root.findViewById(R.id.locked_rec_id);
-        myrv.setHasFixedSize(true);
-        myrv.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        myAdap = new RecyclerViewAdapter(getContext(), listPhotos);
+        recyclerView = root.findViewById(R.id.family_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        photosViewAdapter = new RecyclerViewAdapter(getContext(), listPhotos);
 
         SharedPreferences pref = getContext().getSharedPreferences("ArrPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
@@ -71,7 +73,7 @@ public class LockedFragment extends Fragment {
                     listPhotos.add(photos);
                 }
 
-                myrv.setAdapter(myAdap);
+                recyclerView.setAdapter(photosViewAdapter);
 
             }
 

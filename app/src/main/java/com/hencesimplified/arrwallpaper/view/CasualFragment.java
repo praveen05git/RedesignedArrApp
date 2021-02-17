@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper;
+package com.hencesimplified.arrwallpaper.view;
 
 
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hencesimplified.arrwallpaper.R;
+import com.hencesimplified.arrwallpaper.model.SamplePhotos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Photographer2Fragment extends Fragment {
+public class CasualFragment extends Fragment {
 
     private List<SamplePhotos> listPhotos;
     private RecyclerView myrv;
@@ -34,7 +36,7 @@ public class Photographer2Fragment extends Fragment {
     private DatabaseReference databaseReference;
     private RecyclerViewAdapter myAdap;
 
-    public Photographer2Fragment() {
+    public CasualFragment() {
         // Required empty public constructor
     }
 
@@ -42,7 +44,7 @@ public class Photographer2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_photographer2_fg, container, false);
+        View root = inflater.inflate(R.layout.fragment_casual, container, false);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         listPhotos = new ArrayList<>();
