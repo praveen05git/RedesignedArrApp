@@ -1,11 +1,10 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -13,20 +12,21 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.model.SamplePhotos;
+import com.hencesimplified.arrwallpaper.model.PhotoData;
+import com.hencesimplified.arrwallpaper.view.EventsFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class PhotosViewAdapter extends RecyclerView.Adapter<PhotosViewAdapter.PhotosViewHolder> {
 
-    private List<SamplePhotos> photosList;
+    private List<PhotoData> photosList;
 
-    public PhotosViewAdapter(List<SamplePhotos> photosList) {
+    public PhotosViewAdapter(List<PhotoData> photosList) {
         this.photosList = photosList;
     }
 
-    public void updatePhotosList(List<SamplePhotos> newPhotosList) {
+    public void updatePhotosList(List<PhotoData> newPhotosList) {
         photosList.clear();
         photosList.addAll(newPhotosList);
         notifyDataSetChanged();
@@ -58,13 +58,11 @@ public class PhotosViewAdapter extends RecyclerView.Adapter<PhotosViewAdapter.Ph
             public void onClick(View view) {
                 String img = photosList.get(position).getUrl();
 
-                EventsFragmentDirections.ActionPhotos action = EventsFragmentDirections.actionPhotos();
+                EventsFragmentDirections.EventToPhotos action = EventsFragmentDirections.eventToPhotos();
                 action.setPhotoUrl(img);
                 Navigation.findNavController(photoCardView).navigate(action);
             }
         });
-
-
     }
 
     @Override

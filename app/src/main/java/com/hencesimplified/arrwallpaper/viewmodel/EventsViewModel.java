@@ -12,17 +12,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hencesimplified.arrwallpaper.model.SamplePhotos;
+import com.hencesimplified.arrwallpaper.model.PhotoData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsViewModel extends AndroidViewModel {
 
-    public MutableLiveData<List<SamplePhotos>> listPhotos = new MutableLiveData<>();
+    public MutableLiveData<List<PhotoData>> listPhotos = new MutableLiveData<>();
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private List<SamplePhotos> emptyList = new ArrayList<>();
+    private List<PhotoData> emptyList = new ArrayList<>();
 
     public EventsViewModel(@NonNull Application application) {
         super(application);
@@ -37,7 +37,7 @@ public class EventsViewModel extends AndroidViewModel {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    SamplePhotos photos = postSnapshot.getValue(SamplePhotos.class);
+                    PhotoData photos = postSnapshot.getValue(PhotoData.class);
                     emptyList.add(photos);
                     listPhotos.setValue(emptyList);
                 }

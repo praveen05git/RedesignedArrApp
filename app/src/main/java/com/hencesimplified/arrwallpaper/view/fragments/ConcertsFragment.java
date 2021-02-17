@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.fragments;
 
 
 import android.content.SharedPreferences;
@@ -19,7 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.model.SamplePhotos;
+import com.hencesimplified.arrwallpaper.model.PhotoData;
+import com.hencesimplified.arrwallpaper.view.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class ConcertsFragment extends Fragment {
 
-    private List<SamplePhotos> listPhotos;
+    private List<PhotoData> listPhotos;
     private RecyclerView myrv;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -68,7 +69,7 @@ public class ConcertsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    SamplePhotos photos = postSnapshot.getValue(SamplePhotos.class);
+                    PhotoData photos = postSnapshot.getValue(PhotoData.class);
                     listPhotos.add(photos);
                 }
 

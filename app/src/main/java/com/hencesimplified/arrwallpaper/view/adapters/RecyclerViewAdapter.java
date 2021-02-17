@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,16 +13,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.model.SamplePhotos;
+import com.hencesimplified.arrwallpaper.model.PhotoData;
+import com.hencesimplified.arrwallpaper.view.activities.PhotoViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewFolder> {
     private Context mcontext;
-    private List<SamplePhotos> mdata;
+    private List<PhotoData> mdata;
 
-    public RecyclerViewAdapter(Context context, List<SamplePhotos> listBook) {
+    public RecyclerViewAdapter(Context context, List<PhotoData> listBook) {
         mcontext = context;
         mdata = listBook;
     }

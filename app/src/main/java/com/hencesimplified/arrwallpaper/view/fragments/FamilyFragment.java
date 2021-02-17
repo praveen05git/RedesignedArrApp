@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.fragments;
 
 
 import android.content.SharedPreferences;
@@ -19,7 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.model.SamplePhotos;
+import com.hencesimplified.arrwallpaper.model.PhotoData;
+import com.hencesimplified.arrwallpaper.view.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InstrumentsFragment extends Fragment {
+public class FamilyFragment extends Fragment {
 
-    private List<SamplePhotos> listPhotos;
-    private RecyclerView myrv;
+    private List<PhotoData> listPhotos;
+    private RecyclerView recyclerView;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private RecyclerViewAdapter myAdap;
+    private RecyclerViewAdapter photosViewAdapter;
 
-    public InstrumentsFragment() {
+
+    public FamilyFragment() {
         // Required empty public constructor
     }
 
@@ -45,22 +47,22 @@ public class InstrumentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_instruments, container, false);
+        View root = inflater.inflate(R.layout.fragment_family, container, false);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         listPhotos = new ArrayList<>();
-        myrv = root.findViewById(R.id.unlocked_rec_id);
-        myrv.setHasFixedSize(true);
-        myrv.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        myAdap = new RecyclerViewAdapter(getContext(), listPhotos);
+        recyclerView = root.findViewById(R.id.family_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        photosViewAdapter = new RecyclerViewAdapter(getContext(), listPhotos);
 
         SharedPreferences pref = getContext().getSharedPreferences("ArrPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("ArrPage", 2);
+        editor.putInt("ArrPage", 5);
         editor.apply();
 
-        databaseReference = firebaseDatabase.getReference("instruments");
+        databaseReference = firebaseDatabase.getReference("family");
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -68,11 +70,11 @@ public class InstrumentsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    SamplePhotos photos = postSnapshot.getValue(SamplePhotos.class);
+                    PhotoData photos = postSnapshot.getValue(PhotoData.class);
                     listPhotos.add(photos);
                 }
 
-                myrv.setAdapter(myAdap);
+                recyclerView.setAdapter(photosViewAdapter);
 
             }
 
@@ -82,9 +84,7 @@ public class InstrumentsFragment extends Fragment {
             }
         });
 
-
         return root;
     }
-
 
 }

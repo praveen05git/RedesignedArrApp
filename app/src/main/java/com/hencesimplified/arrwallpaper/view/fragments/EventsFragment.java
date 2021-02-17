@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.fragments;
 
 
 import android.content.SharedPreferences;
@@ -12,22 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hencesimplified.arrwallpaper.R;
+import com.hencesimplified.arrwallpaper.view.adapters.PhotosViewAdapter;
 import com.hencesimplified.arrwallpaper.viewmodel.EventsViewModel;
 
 import java.util.ArrayList;
 
 public class EventsFragment extends Fragment {
 
+    Button button;
     private RecyclerView recyclerView;
     private PhotosViewAdapter photosViewAdapter = new PhotosViewAdapter(new ArrayList<>());
     private EventsViewModel eventsViewModel;
-    Button button;
 
     public EventsFragment() {
         // Required empty public constructor

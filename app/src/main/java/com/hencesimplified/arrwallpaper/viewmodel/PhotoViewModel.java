@@ -2,20 +2,19 @@ package com.hencesimplified.arrwallpaper.viewmodel;
 
 import android.Manifest;
 import android.app.Application;
+import android.app.WallpaperManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
-import com.hencesimplified.arrwallpaper.view.PhotoViewActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -25,6 +24,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class PhotoViewModel extends AndroidViewModel {
+
+    public MutableLiveData<Boolean> downloadError = new MutableLiveData<>();
+    public MutableLiveData<Boolean> wallpaperError = new MutableLiveData<>();
+
     public PhotoViewModel(@NonNull Application application) {
         super(application);
     }
@@ -33,12 +36,10 @@ public class PhotoViewModel extends AndroidViewModel {
         Picasso.get().load(url).into(imageView);
     }
 
-    public Target getTarget(final String url) {
+    public Target getTarget() {
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -46,7 +47,6 @@ public class PhotoViewModel extends AndroidViewModel {
                         String state = Environment.getExternalStorageState();
                         if (Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                            File sdCard = Environment.getExternalStorageDirectory();
                             String folder_main = "ARR Galaxy";
 
                             File f = new File(Environment.getExternalStorageDirectory() + "/" + folder_main);
@@ -75,7 +75,34 @@ public class PhotoViewModel extends AndroidViewModel {
                     }
                 }).start();
 
-                Toast.makeText(getApplication(), "Downloaded and saved in Internal Storage->ARR Galaxy", Toast.LENGTH_SHORT).show();
+                downloadError.setValue(false);
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                downloadError.setValue(true);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        return target;
+    }
+
+    public Target setWallpaper() {
+        Target setWallTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                WallpaperManager manager = WallpaperManager.getInstance(getApplication());
+                try {
+                    manager.setBitmap(bitmap);
+                    wallpaperError.setValue(false);
+                } catch (Exception e) {
+                    wallpaperError.setValue(true);
+                }
 
             }
 
@@ -89,7 +116,7 @@ public class PhotoViewModel extends AndroidViewModel {
 
             }
         };
-        return target;
+        return setWallTarget;
     }
 
     public boolean checkPermission(String permission) {

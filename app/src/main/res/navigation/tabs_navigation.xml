@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/event"
-        android:name="com.hencesimplified.arrwallpaper.view.EventsFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events">
         <action
-            android:id="@+id/actionPhotos"
+            android:id="@+id/eventToPhotos"
             app:destination="@id/photoViewFragment" />
         <action
             android:id="@+id/action_event_to_casual"
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoViewFragment"
-        android:name="com.hencesimplified.arrwallpaper.view.PhotoViewFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.PhotoViewFragment"
         android:label="fragment_photo_view"
         tools:layout="@layout/fragment_photo_view">
         <argument
@@ -29,37 +29,62 @@
         <action
             android:id="@+id/actionEvents"
             app:destination="@id/event" />
+        <action
+            android:id="@+id/photosToConcert"
+            app:destination="@id/concert" />
+        <action
+            android:id="@+id/photosToInstrument"
+            app:destination="@id/instrument" />
+        <action
+            android:id="@+id/photosToCasual"
+            app:destination="@id/casual" />
+        <action
+            android:id="@+id/photosToFamily"
+            app:destination="@id/family" />
     </fragment>
     <fragment
         android:id="@+id/instrument"
-        android:name="com.hencesimplified.arrwallpaper.view.InstrumentsFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.InstrumentsFragment"
         android:label="fragment_instruments"
         tools:layout="@layout/fragment_instruments">
         <action
             android:id="@+id/action_instrument_to_event"
             app:destination="@id/event" />
+        <action
+            android:id="@+id/instrumentToPhotos"
+            app:destination="@id/photoViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/casual"
-        android:name="com.hencesimplified.arrwallpaper.view.CasualFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.CasualFragment"
         android:label="fragment_casual"
         tools:layout="@layout/fragment_casual">
         <action
             android:id="@+id/action_casual_to_family"
             app:destination="@id/family" />
+        <action
+            android:id="@+id/casualToPhotos"
+            app:destination="@id/photoViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/concert"
-        android:name="com.hencesimplified.arrwallpaper.view.ConcertsFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.ConcertsFragment"
         android:label="fragment_concerts"
         tools:layout="@layout/fragment_concerts">
         <action
             android:id="@+id/action_concert_to_intrument"
             app:destination="@id/instrument" />
+        <action
+            android:id="@+id/concertToPhotos"
+            app:destination="@id/photoViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/family"
-        android:name="com.hencesimplified.arrwallpaper.view.FamilyFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.FamilyFragment"
         android:label="fragment_family"
-        tools:layout="@layout/fragment_family" />
+        tools:layout="@layout/fragment_family">
+        <action
+            android:id="@+id/familyToPhotos"
+            app:destination="@id/photoViewFragment" />
+    </fragment>
 </navigation>

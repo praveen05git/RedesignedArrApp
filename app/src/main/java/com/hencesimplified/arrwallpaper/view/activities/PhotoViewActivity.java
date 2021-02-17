@@ -1,4 +1,4 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.activities;
 
 import android.Manifest;
 import android.app.WallpaperManager;

@@ -1,9 +1,8 @@
-package com.hencesimplified.arrwallpaper.view;
+package com.hencesimplified.arrwallpaper.view.activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -72,9 +71,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNav);
 
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
-        //navController = Navigation.findNavController(this, R.id.navHostFragment);
-        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if (destination.getId() == R.id.photoViewFragment) {
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         infoButton = findViewById(R.id.floatingActionButton);
 /*
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("ArrPref", 0);
@@ -129,19 +138,20 @@ public class MainActivity extends AppCompatActivity {
         int check = ContextCompat.checkSelfPermission(this, permission);
         return (check == PackageManager.PERMISSION_GRANTED);
     }
-/*
-    private boolean loadFragment(Fragment fragment) {
-        if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                    .replace(R.id.fg_container, fragment)
-                    .commit();
-            return true;
+
+    /*
+        private boolean loadFragment(Fragment fragment) {
+            if (fragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.fg_container, fragment)
+                        .commit();
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-*/
+    */
     @Override
     public void onBackPressed() {
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
