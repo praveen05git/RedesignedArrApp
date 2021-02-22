@@ -8,7 +8,7 @@
     tools:context=".view.fragments.FamilyFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/family_recyclerview"
+        android:id="@+id/familyRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

@@ -7,7 +7,6 @@
     android:background="@drawable/bg_gradient"
     tools:context=".view.fragments.PhotoViewFragment">
 
-
     <ImageView
         android:id="@+id/imageViewFg"
         android:layout_width="0dp"

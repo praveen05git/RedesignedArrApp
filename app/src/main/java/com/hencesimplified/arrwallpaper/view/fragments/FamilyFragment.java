@@ -6,37 +6,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.model.PhotoData;
-import com.hencesimplified.arrwallpaper.view.adapters.RecyclerViewAdapter;
+import com.hencesimplified.arrwallpaper.view.adapters.FamilyPhotosViewAdapter;
+import com.hencesimplified.arrwallpaper.viewmodel.FamilyViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FamilyFragment extends Fragment {
 
-    private List<PhotoData> listPhotos;
     private RecyclerView recyclerView;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private RecyclerViewAdapter photosViewAdapter;
-
+    private FamilyPhotosViewAdapter familyPhotosViewAdapter = new FamilyPhotosViewAdapter(new ArrayList<>());
+    private FamilyViewModel familyViewModel;
 
     public FamilyFragment() {
         // Required empty public constructor
@@ -49,42 +38,35 @@ public class FamilyFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_family, container, false);
 
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        listPhotos = new ArrayList<>();
-        recyclerView = root.findViewById(R.id.family_recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        photosViewAdapter = new RecyclerViewAdapter(getContext(), listPhotos);
-
         SharedPreferences pref = getContext().getSharedPreferences("ArrPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("ArrPage", 5);
         editor.apply();
 
-        databaseReference = firebaseDatabase.getReference("family");
+        return root;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        familyViewModel = new ViewModelProvider(this).get(FamilyViewModel.class);
+        familyViewModel.getPhotos();
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PhotoData photos = postSnapshot.getValue(PhotoData.class);
-                    listPhotos.add(photos);
-                }
+        recyclerView = view.findViewById(R.id.familyRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setAdapter(familyPhotosViewAdapter);
 
-                recyclerView.setAdapter(photosViewAdapter);
+        observeViewModel();
+    }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+    private void observeViewModel() {
+        familyViewModel.listPhotos.observe(getActivity(), photos -> {
+            if (photos != null) {
+                familyPhotosViewAdapter.updatePhotosList(photos);
             }
         });
-
-        return root;
     }
 
 }

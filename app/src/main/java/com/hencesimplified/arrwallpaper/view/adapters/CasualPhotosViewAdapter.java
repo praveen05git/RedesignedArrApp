@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hencesimplified.arrwallpaper.R;
 import com.hencesimplified.arrwallpaper.model.PhotoData;
-import com.hencesimplified.arrwallpaper.view.EventsFragmentDirections;
+import com.hencesimplified.arrwallpaper.view.fragments.CasualFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class PhotosViewAdapter extends RecyclerView.Adapter<PhotosViewAdapter.PhotosViewHolder> {
+public class CasualPhotosViewAdapter extends RecyclerView.Adapter<CasualPhotosViewAdapter.PhotosViewHolder> {
 
     private List<PhotoData> photosList;
 
-    public PhotosViewAdapter(List<PhotoData> photosList) {
+    public CasualPhotosViewAdapter(List<PhotoData> photosList) {
         this.photosList = photosList;
     }
 
@@ -53,15 +53,12 @@ public class PhotosViewAdapter extends RecyclerView.Adapter<PhotosViewAdapter.Ph
                 .centerCrop()
                 .into(photoThumbnail);
 
-        photoCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String img = photosList.get(position).getUrl();
+        photoCardView.setOnClickListener(view -> {
+            String img = photosList.get(position).getUrl();
 
-                EventsFragmentDirections.EventToPhotos action = EventsFragmentDirections.eventToPhotos();
-                action.setPhotoUrl(img);
-                Navigation.findNavController(photoCardView).navigate(action);
-            }
+            CasualFragmentDirections.CasualToPhotos casualToPhotos = CasualFragmentDirections.casualToPhotos();
+            casualToPhotos.setPhotoUrl(img);
+            Navigation.findNavController(photoCardView).navigate(casualToPhotos);
         });
     }
 

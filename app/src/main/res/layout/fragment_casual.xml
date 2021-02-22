@@ -7,7 +7,7 @@
     tools:context=".view.fragments.CasualFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/photographer2_rec_id"
+        android:id="@+id/casualRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

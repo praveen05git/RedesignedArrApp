@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.view.PhotoViewFragmentArgs;
 import com.hencesimplified.arrwallpaper.viewmodel.PhotoViewModel;
 import com.squareup.picasso.Picasso;
 

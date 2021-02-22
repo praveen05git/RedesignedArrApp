@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +15,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hencesimplified.arrwallpaper.R;
-import com.hencesimplified.arrwallpaper.view.adapters.PhotosViewAdapter;
+import com.hencesimplified.arrwallpaper.view.adapters.EventsPhotosViewAdapter;
 import com.hencesimplified.arrwallpaper.viewmodel.EventsViewModel;
 
 import java.util.ArrayList;
 
 public class EventsFragment extends Fragment {
 
-    Button button;
     private RecyclerView recyclerView;
-    private PhotosViewAdapter photosViewAdapter = new PhotosViewAdapter(new ArrayList<>());
+    private EventsPhotosViewAdapter eventsPhotosViewAdapter = new EventsPhotosViewAdapter(new ArrayList<>());
     private EventsViewModel eventsViewModel;
 
     public EventsFragment() {
@@ -53,19 +51,10 @@ public class EventsFragment extends Fragment {
         eventsViewModel = new ViewModelProvider(this).get(EventsViewModel.class);
         eventsViewModel.getPhotos();
 
-        button = view.findViewById(R.id.button);
         recyclerView = view.findViewById(R.id.events_recyclerview);
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView.setAdapter(photosViewAdapter);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+        recyclerView.setAdapter(eventsPhotosViewAdapter);
 
         observeViewModel();
     }
@@ -73,7 +62,7 @@ public class EventsFragment extends Fragment {
     private void observeViewModel() {
         eventsViewModel.listPhotos.observe(getActivity(), photos -> {
             if (photos != null) {
-                photosViewAdapter.updatePhotosList(photos);
+                eventsPhotosViewAdapter.updatePhotosList(photos);
             }
         });
     }

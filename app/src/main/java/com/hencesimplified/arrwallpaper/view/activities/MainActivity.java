@@ -1,7 +1,6 @@
 package com.hencesimplified.arrwallpaper.view.activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -152,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     */
+    /*
     @Override
     public void onBackPressed() {
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -177,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
