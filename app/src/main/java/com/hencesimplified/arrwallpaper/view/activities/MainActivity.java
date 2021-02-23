@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
@@ -31,36 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private NavHostFragment navHostFragment;
 
-    /*
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Fragment fragment = null;
-
-            switch (item.getItemId()) {
-                case R.id.weekly:
-                    fragment = new ConcertsFragment();
-                    break;
-                case R.id.unlocked:
-                    fragment = new InstrumentsFragment();
-                    break;
-                case R.id.locked:
-                    fragment = new FamilyFragment();
-                    break;
-                case R.id.wildlife:
-                    fragment = new EventsFragment();
-                    break;
-                case R.id.scenes:
-                    fragment = new CasualFragment();
-                    break;
-            }
-            return loadFragment(fragment);
-        }
-    };
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +43,11 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.photoViewFragment) {
-                    bottomNavigationView.setVisibility(View.GONE);
-                } else {
-                    bottomNavigationView.setVisibility(View.VISIBLE);
-                }
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.photoViewFragment) {
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                bottomNavigationView.setVisibility(View.VISIBLE);
             }
         });
         infoButton = findViewById(R.id.floatingActionButton);
@@ -109,20 +77,16 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 */
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent page_intent = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(page_intent);
-            }
+        infoButton.setOnClickListener(view -> {
+            Intent page_intent = new Intent(MainActivity.this, InformationActivity.class);
+            startActivity(page_intent);
         });
     }
-/*
+
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, (DrawerLayout) null);
     }
- */
 
     @Override
     public void onStart() {

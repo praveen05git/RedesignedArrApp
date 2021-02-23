@@ -65,21 +65,9 @@ public class PhotoViewActivity extends AppCompatActivity {
                 alert_dia1.setTitle("Set as Wallpaper?");
                 alert_dia1.setMessage("Are you sure to set this picture as wallpaper?");
 
-                alert_dia1.setButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        Picasso.get().load(url_img)
-                                .into(setWall(url_img));
-
-                    }
-                });
-                alert_dia1.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                alert_dia1.setButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> Picasso.get().load(url_img)
+                        .into(setWall(url_img)));
+                alert_dia1.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialog, which) -> dialog.cancel());
                 alert_dia1.show();
 
             }
@@ -95,41 +83,37 @@ public class PhotoViewActivity extends AppCompatActivity {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
 
+                new Thread(() -> {
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                    String state = Environment.getExternalStorageState();
+                    if (Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                        String state = Environment.getExternalStorageState();
-                        if (Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        File sdCard = Environment.getExternalStorageDirectory();
+                        String folder_main = "ARR Galaxy";
 
-                            File sdCard = Environment.getExternalStorageDirectory();
-                            String folder_main = "ARR Galaxy";
+                        File f = new File(Environment.getExternalStorageDirectory() + "/" + folder_main);
 
-                            File f = new File(Environment.getExternalStorageDirectory() + "/" + folder_main);
-
-                            if (!f.exists()) {
-                                f.mkdirs();
-                            }
-
-                            try {
-
-                                String uniqueID = UUID.randomUUID().toString();
-                                File file = new File(f.getPath() + "/" + uniqueID + ".jpg");
-                                FileOutputStream ostream = new FileOutputStream(file);
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                                ostream.flush();
-                                ostream.close();
-
-
-                            } catch (IOException e) {
-                                Log.e("IO", e.getLocalizedMessage());
-                            }
-
+                        if (!f.exists()) {
+                            f.mkdirs();
                         }
 
+                        try {
+
+                            String uniqueID = UUID.randomUUID().toString();
+                            File file = new File(f.getPath() + "/" + uniqueID + ".jpg");
+                            FileOutputStream ostream = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+                            ostream.flush();
+                            ostream.close();
+
+
+                        } catch (IOException e) {
+                            Log.e("IO", e.getLocalizedMessage());
+                        }
 
                     }
+
+
                 }).start();
 
                 Toast.makeText(getApplicationContext(), "Downloaded and saved in Internal Storage->ARR Galaxy", Toast.LENGTH_SHORT).show();

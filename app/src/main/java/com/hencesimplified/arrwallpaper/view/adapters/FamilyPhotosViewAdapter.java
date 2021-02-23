@@ -41,11 +41,11 @@ public class FamilyPhotosViewAdapter extends RecyclerView.Adapter<FamilyPhotosVi
 
     @Override
     public void onBindViewHolder(@NonNull PhotosViewHolder holder, final int position) {
-        TextView photoTitle = holder.itemView.findViewById(R.id.title_id);
+        //TextView photoTitle = holder.itemView.findViewById(R.id.title_id);
         ImageView photoThumbnail = holder.itemView.findViewById(R.id.photo_id);
         CardView photoCardView = holder.itemView.findViewById(R.id.card_id);
 
-        photoTitle.setText(photosList.get(position).getName());
+        //photoTitle.setText(photosList.get(position).getName());
 
         Picasso.get()
                 .load(photosList.get(position).getUrl())
