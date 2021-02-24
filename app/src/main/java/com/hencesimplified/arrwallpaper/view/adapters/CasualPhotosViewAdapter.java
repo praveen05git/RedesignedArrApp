@@ -4,17 +4,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hencesimplified.arrwallpaper.R;
 import com.hencesimplified.arrwallpaper.model.PhotoData;
+import com.hencesimplified.arrwallpaper.util.Util;
 import com.hencesimplified.arrwallpaper.view.fragments.CasualFragmentDirections;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,16 +42,15 @@ public class CasualPhotosViewAdapter extends RecyclerView.Adapter<CasualPhotosVi
 
     @Override
     public void onBindViewHolder(@NonNull PhotosViewHolder holder, final int position) {
-        //TextView photoTitle = holder.itemView.findViewById(R.id.title_id);
         ImageView photoThumbnail = holder.itemView.findViewById(R.id.photo_id);
         CardView photoCardView = holder.itemView.findViewById(R.id.card_id);
 
-        //photoTitle.setText(photosList.get(position).getName());
-
-        Picasso.get()
+        RequestOptions options = new RequestOptions()
+                .placeholder(Util.getProgressDrawable(photoThumbnail.getContext()))
+                .error(R.mipmap.arr_white);
+        Glide.with(photoThumbnail.getContext())
+                .setDefaultRequestOptions(options)
                 .load(photosList.get(position).getUrl())
-                .fit()
-                .centerCrop()
                 .into(photoThumbnail);
 
         photoCardView.setOnClickListener(view -> {

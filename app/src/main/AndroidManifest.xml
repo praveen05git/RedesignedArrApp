@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.activities.InformationActivity"></activity>
         <activity android:name=".view.activities.AboutActivity" />
-        <activity android:name=".view.activities.PhotoViewActivity" />
         <activity android:name=".view.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

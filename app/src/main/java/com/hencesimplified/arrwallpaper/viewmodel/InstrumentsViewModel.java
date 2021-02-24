@@ -29,6 +29,7 @@ public class InstrumentsViewModel extends AndroidViewModel {
     }
 
     public void getPhotos() {
+        emptyList.clear();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("instruments");
 

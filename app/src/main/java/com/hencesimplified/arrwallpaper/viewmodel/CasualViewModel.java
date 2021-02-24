@@ -29,6 +29,7 @@ public class CasualViewModel extends AndroidViewModel {
     }
 
     public void getPhotos() {
+        emptyList.clear();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("casual");
 

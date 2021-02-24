@@ -5,23 +5,24 @@ import android.app.Application;
 import android.app.WallpaperManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
+import java.io.OutputStream;
 
 public class PhotoViewModel extends AndroidViewModel {
 
@@ -32,95 +33,114 @@ public class PhotoViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void loadImage(ImageView imageView, String url) {
-        Picasso.get().load(url).into(imageView);
-    }
-
-    public Target getTarget() {
-        Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
+    public void setWallpaper(String imageUrl) {
+        Glide.with(getApplication())
+                .load(imageUrl)
+                .into(new CustomTarget<Drawable>() {
                     @Override
-                    public void run() {
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
 
-                        String state = Environment.getExternalStorageState();
-                        if (Environment.MEDIA_MOUNTED.equals(state) && checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                            String folder_main = "ARR Galaxy";
-
-                            File f = new File(Environment.getExternalStorageDirectory() + "/" + folder_main);
-
-                            if (!f.exists()) {
-                                f.mkdirs();
-                            }
-
-                            try {
-
-                                String uniqueID = UUID.randomUUID().toString();
-                                File file = new File(f.getPath() + "/" + uniqueID + ".jpg");
-                                FileOutputStream ostream = new FileOutputStream(file);
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                                ostream.flush();
-                                ostream.close();
-
-
-                            } catch (IOException e) {
-                                Log.e("IO", e.getLocalizedMessage());
-                            }
-
+                        Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                        WallpaperManager manager = WallpaperManager.getInstance(getApplication());
+                        try {
+                            manager.setBitmap(bitmap);
+                            wallpaperError.setValue(false);
+                        } catch (Exception e) {
+                            wallpaperError.setValue(true);
                         }
+                    }
 
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
 
                     }
-                }).start();
 
-                downloadError.setValue(false);
-            }
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
 
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                downloadError.setValue(true);
-            }
+                        Toast.makeText(getApplication(), "Failed! Please try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-        return target;
     }
 
-    public Target setWallpaper() {
-        Target setWallTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+    public void downloadImage(String imageURL) {
 
-                WallpaperManager manager = WallpaperManager.getInstance(getApplication());
-                try {
-                    manager.setBitmap(bitmap);
-                    wallpaperError.setValue(false);
-                } catch (Exception e) {
-                    wallpaperError.setValue(true);
-                }
+        if (!verifyPermissions()) {
+            return;
+        }
 
-            }
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "ARR" + "/";
 
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+        final File dir = new File(dirPath);
 
-            }
+        final String fileName = imageURL.substring(imageURL.lastIndexOf('/') + 1);
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
+        Glide.with(getApplication())
+                .load(imageURL)
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
 
-            }
-        };
-        return setWallTarget;
+                        Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                        Toast.makeText(getApplication(), "Saving Image...", Toast.LENGTH_SHORT).show();
+                        saveImage(bitmap, dir, fileName);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+
+                        Toast.makeText(getApplication(), "Failed to Download Image! Please try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
-    public boolean checkPermission(String permission) {
-        int check = ContextCompat.checkSelfPermission(getApplication(), permission);
-        return (check == PackageManager.PERMISSION_GRANTED);
+    public Boolean verifyPermissions() {
+
+        // This will return the current Status
+        int permissionExternalMemory = ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
+
+            String[] STORAGE_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            // If permission not granted then ask for permission real time.
+            //ActivityCompat.requestPermissions(getApplication(), STORAGE_PERMISSIONS, 1);
+            return false;
+        }
+
+        return true;
+
+    }
+
+    private void saveImage(Bitmap image, File storageDir, String imageFileName) {
+
+        boolean successDirCreated = false;
+        if (!storageDir.exists()) {
+            successDirCreated = storageDir.mkdir();
+        }
+        if (successDirCreated) {
+            File imageFile = new File(storageDir, imageFileName);
+            String savedImagePath = imageFile.getAbsolutePath();
+            try {
+                OutputStream fOut = new FileOutputStream(imageFile);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                fOut.close();
+                Toast.makeText(getApplication(), "Image Saved!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getApplication(), "Error while saving image!", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+
+        } else {
+            Toast.makeText(getApplication(), "Failed to make folder!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

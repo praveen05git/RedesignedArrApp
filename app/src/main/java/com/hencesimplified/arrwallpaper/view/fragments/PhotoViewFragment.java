@@ -16,13 +16,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.palette.graphics.Palette;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.hencesimplified.arrwallpaper.R;
+import com.hencesimplified.arrwallpaper.util.Util;
 import com.hencesimplified.arrwallpaper.viewmodel.PhotoViewModel;
-import com.squareup.picasso.Picasso;
 
 public class PhotoViewFragment extends Fragment {
 
@@ -59,21 +61,17 @@ public class PhotoViewFragment extends Fragment {
         photoViewModel = new ViewModelProvider(this).get(PhotoViewModel.class);
         constraintLayout = view.findViewById(R.id.constraint);
 
-        //photoViewModel.loadImage(imageView, imageUrl);
+        loadImage(imageView, imageUrl, Util.getProgressDrawable(imageView.getContext()));
+        setBackgroundColor(imageUrl, constraintLayout);
 
-        loadImage(imageView, imageUrl, constraintLayout);
-        //loadImage(imageView, imageUrl);
-
-        downloadButton.setOnClickListener(view1 -> Picasso.get().load(imageUrl)
-                .into(photoViewModel.getTarget()));
+        downloadButton.setOnClickListener(view1 -> photoViewModel.downloadImage(imageUrl));
 
         setWallpaperButton.setOnClickListener(v -> {
             AlertDialog alert_dia1 = new AlertDialog.Builder(getActivity()).create();
             alert_dia1.setTitle("Set as Wallpaper?");
             alert_dia1.setMessage("Are you sure to set this picture as wallpaper?");
 
-            alert_dia1.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> Picasso.get().load(imageUrl)
-                    .into(photoViewModel.setWallpaper()));
+            alert_dia1.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> photoViewModel.setWallpaper(imageUrl));
             alert_dia1.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialog, which) -> dialog.cancel());
             alert_dia1.show();
 
@@ -84,26 +82,40 @@ public class PhotoViewFragment extends Fragment {
 
     public void observeViewModel() {
         photoViewModel.downloadError.observe(getActivity(), error -> {
-
         });
 
         photoViewModel.wallpaperError.observe(getActivity(), error -> {
-
         });
     }
 
-    public void loadImage(ImageView imageView, String url, ConstraintLayout constraintLayout) {
+    public void loadImage(ImageView imageView, String url, CircularProgressDrawable progressDrawable) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(progressDrawable)
+                .error(R.mipmap.arr_white);
+        Glide.with(this)
+                .setDefaultRequestOptions(options)
+                .load(url)
+                .into(imageView);
+    }
+
+    public void setBackgroundColor(String url, ConstraintLayout constraintLayout) {
+
         Glide.with(this)
                 .asBitmap()
                 .load(url)
-                //.into(imageView)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Palette.from(resource)
                                 .generate(palette -> {
-                                    int intColor = palette.getLightMutedSwatch().getRgb();
-                                    imageView.setBackgroundColor(intColor);
+                                    int intColor = 0;
+                                    if (palette.getDarkVibrantSwatch() != null) {
+                                        intColor = palette.getDarkVibrantSwatch().getRgb();
+                                    } else if (palette.getLightMutedSwatch() != null) {
+                                        intColor = palette.getLightMutedSwatch().getRgb();
+                                    }
+
+                                    constraintLayout.setBackgroundColor(intColor);
                                 });
                     }
 
@@ -113,4 +125,5 @@ public class PhotoViewFragment extends Fragment {
                     }
                 });
     }
+
 }
