@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
@@ -103,15 +104,21 @@ public class PhotoViewModel extends AndroidViewModel {
                                 e.printStackTrace();
                             }
                         } else {
-                            String imagePath = Environment.getExternalStoragePublicDirectory(directory).getAbsolutePath();
-                            File image = new File(imagePath, fileName);
-                            FileOutputStream outputStream = null;
-                            try {
-                                outputStream = new FileOutputStream(image);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
+                            if (checkPermission()) {
+                                String imagePath = Environment.getExternalStoragePublicDirectory(directory).getAbsolutePath();
+                                File image = new File(imagePath, fileName);
+                                if (!image.exists()) {
+                                    image.mkdirs();
+                                }
+                                try {
+                                    FileOutputStream outputStream = new FileOutputStream(image);
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                } catch (FileNotFoundException e) {
+                                    Toast.makeText(getApplication(), e.getMessage(),Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplication(), "Not granted permission", Toast.LENGTH_LONG).show();
                             }
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                         }
                     }
 
@@ -129,6 +136,12 @@ public class PhotoViewModel extends AndroidViewModel {
                 });
 
     }
+
+    public boolean checkPermission() {
+        int check = ContextCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return (check == PackageManager.PERMISSION_GRANTED);
+    }
+
 
     /*
     public void downloadImage(String imageURL) {
@@ -169,23 +182,6 @@ public class PhotoViewModel extends AndroidViewModel {
 
     }
      */
-
-    public Boolean verifyPermissions() {
-
-        // This will return the current Status
-        int permissionExternalMemory = ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
-
-            String[] STORAGE_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            // If permission not granted then ask for permission real time.
-            //ActivityCompat.requestPermissions(getApplication(), STORAGE_PERMISSIONS, 1);
-            return false;
-        }
-
-        return true;
-
-    }
 
     private void saveImage(Bitmap image, File storageDir, String imageFileName) {
 
