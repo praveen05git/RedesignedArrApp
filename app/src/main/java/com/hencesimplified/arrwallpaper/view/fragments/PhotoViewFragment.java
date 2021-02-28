@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -55,6 +56,11 @@ public class PhotoViewFragment extends Fragment {
             imageUrl = PhotoViewFragmentArgs.fromBundle(getArguments()).getPhotoUrl();
         }
 
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (Exception e) {
+        }
+
         downloadButton = view.findViewById(R.id.downloadButton);
         setWallpaperButton = view.findViewById(R.id.setWallpaperButton);
         imageView = view.findViewById(R.id.imageViewFg);
@@ -90,8 +96,8 @@ public class PhotoViewFragment extends Fragment {
 
     public void loadImage(ImageView imageView, String url, CircularProgressDrawable progressDrawable) {
         RequestOptions options = new RequestOptions()
-                .placeholder(progressDrawable)
-                .error(R.mipmap.arr_white);
+                .placeholder(progressDrawable);
+        //.error(R.mipmap.arr_white);
         Glide.with(this)
                 .setDefaultRequestOptions(options)
                 .load(url)

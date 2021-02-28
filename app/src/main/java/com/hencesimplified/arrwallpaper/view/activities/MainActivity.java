@@ -1,6 +1,7 @@
 package com.hencesimplified.arrwallpaper.view.activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,14 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -51,36 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         infoButton = findViewById(R.id.floatingActionButton);
-/*
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("ArrPref", 0);
-        int page = preferences.getInt("ArrPage", -1);
-
-        if (page == 1) {
-            loadFragment(new ConcertsFragment());
-            bottomNavigationView.setSelectedItemId(R.id.weekly);
-        } else if (page == 2) {
-            loadFragment(new InstrumentsFragment());
-            bottomNavigationView.setSelectedItemId(R.id.unlocked);
-        } else if (page == 3) {
-            loadFragment(new EventsFragment());
-            bottomNavigationView.setSelectedItemId(R.id.wildlife);
-        } else if (page == 4) {
-            loadFragment(new CasualFragment());
-            bottomNavigationView.setSelectedItemId(R.id.scenes);
-        } else if (page == 5) {
-            loadFragment(new FamilyFragment());
-            bottomNavigationView.setSelectedItemId(R.id.locked);
-        } else {
-            loadFragment(new ConcertsFragment());
-            bottomNavigationView.setSelectedItemId(R.id.weekly);
-        }
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-*/
-        infoButton.setOnClickListener(view -> {
-            Intent page_intent = new Intent(MainActivity.this, InformationActivity.class);
-            startActivity(page_intent);
-        });
     }
 
     @Override
@@ -101,20 +70,6 @@ public class MainActivity extends AppCompatActivity {
         return (check == PackageManager.PERMISSION_GRANTED);
     }
 
-    /*
-        private boolean loadFragment(Fragment fragment) {
-            if (fragment != null) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                        .replace(R.id.fg_container, fragment)
-                        .commit();
-                return true;
-            }
-            return false;
-        }
-    */
-    /*
     @Override
     public void onBackPressed() {
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -140,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-
-     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

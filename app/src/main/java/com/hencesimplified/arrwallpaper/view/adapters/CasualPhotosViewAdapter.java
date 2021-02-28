@@ -46,8 +46,7 @@ public class CasualPhotosViewAdapter extends RecyclerView.Adapter<CasualPhotosVi
         CardView photoCardView = holder.itemView.findViewById(R.id.card_id);
 
         RequestOptions options = new RequestOptions()
-                .placeholder(Util.getProgressDrawable(photoThumbnail.getContext()))
-                .error(R.mipmap.arr_white);
+                .placeholder(Util.getProgressDrawable(photoThumbnail.getContext()));
         Glide.with(photoThumbnail.getContext())
                 .setDefaultRequestOptions(options)
                 .load(photosList.get(position).getUrl())

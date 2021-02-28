@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hencesimplified.arrwallpaper.R;
 import com.hencesimplified.arrwallpaper.view.adapters.CasualPhotosViewAdapter;
 import com.hencesimplified.arrwallpaper.viewmodel.CasualViewModel;
-import com.hencesimplified.arrwallpaper.viewmodel.FamilyViewModel;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,11 @@ public class CasualFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        } catch (Exception e) {
+        }
 
         casualViewModel = new ViewModelProvider(this).get(CasualViewModel.class);
         casualViewModel.getPhotos();

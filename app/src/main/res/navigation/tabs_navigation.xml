@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_event_to_casual"
             app:destination="@id/casual" />
+        <action
+            android:id="@+id/action_event_to_about"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoViewFragment"
@@ -86,5 +89,14 @@
         <action
             android:id="@+id/familyToPhotos"
             app:destination="@id/photoViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/aboutToEvent"
+            app:destination="@id/event" />
     </fragment>
 </navigation>
