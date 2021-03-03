@@ -32,8 +32,8 @@ import java.util.UUID;
 
 public class PhotoViewModel extends AndroidViewModel {
 
-    public MutableLiveData<Boolean> downloadError = new MutableLiveData<>();
-    public MutableLiveData<Boolean> wallpaperError = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isDownloaded = new MutableLiveData<>();
+    public MutableLiveData<Boolean> wallpaperSet = new MutableLiveData<>();
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
@@ -50,9 +50,9 @@ public class PhotoViewModel extends AndroidViewModel {
                         WallpaperManager manager = WallpaperManager.getInstance(getApplication());
                         try {
                             manager.setBitmap(bitmap);
-                            wallpaperError.setValue(false);
+                            wallpaperSet.setValue(true);
                         } catch (Exception e) {
-                            wallpaperError.setValue(true);
+                            wallpaperSet.setValue(false);
                         }
                     }
 
@@ -64,7 +64,6 @@ public class PhotoViewModel extends AndroidViewModel {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-
                         Toast.makeText(getApplication(), "Failed! Please try again later.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -86,7 +85,6 @@ public class PhotoViewModel extends AndroidViewModel {
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
 
                         Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
-                        Toast.makeText(getApplication(), "Saving Image...", Toast.LENGTH_SHORT).show();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             ContentValues values = new ContentValues();
@@ -97,10 +95,10 @@ public class PhotoViewModel extends AndroidViewModel {
                             ContentResolver resolver = getApplication().getContentResolver();
                             Uri uri = resolver.insert(mediaContentUri, values);
                             try {
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri));
-
+                                isDownloaded.setValue(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri)));
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
+                                isDownloaded.setValue(false);
                             }
                         } else {
                             if (checkPermission()) {
@@ -111,13 +109,12 @@ public class PhotoViewModel extends AndroidViewModel {
                                 }
                                 try {
                                     FileOutputStream outputStream = new FileOutputStream(image);
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                                    Toast.makeText(getApplication(), "Image Downloaded!", Toast.LENGTH_SHORT).show();
+                                    isDownloaded.setValue(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream));
                                 } catch (FileNotFoundException e) {
-                                    Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    isDownloaded.setValue(false);
                                 }
                             } else {
-                                Toast.makeText(getApplication(), "Not granted permission", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplication(), "Permission not granted", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -130,7 +127,6 @@ public class PhotoViewModel extends AndroidViewModel {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-
                         Toast.makeText(getApplication(), "Failed to Download Image! Please try again later.", Toast.LENGTH_SHORT).show();
                     }
                 });

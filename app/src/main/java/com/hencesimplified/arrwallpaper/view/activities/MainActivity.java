@@ -21,13 +21,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hencesimplified.arrwallpaper.R;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    FloatingActionButton infoButton;
     private NavController navController;
     private NavHostFragment navHostFragment;
 
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.setVisibility(View.VISIBLE);
             }
         });
-        infoButton = findViewById(R.id.floatingActionButton);
     }
 
     @Override
@@ -71,32 +68,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Warning!");
-        alertDialog.setMessage("Are you sure you want to exit?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-                Intent ExitIntent = new Intent(Intent.ACTION_MAIN);
-                ExitIntent.addCategory(Intent.CATEGORY_HOME);
-                ExitIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(ExitIntent);
-            }
-        });
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.opt_menu, menu);
@@ -110,17 +81,38 @@ public class MainActivity extends AppCompatActivity {
         switch (optionId) {
 
             case R.id.opt_rate:
-                Intent playStore = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.hencesimplified.arrwallpaper"));
-                startActivity(playStore);
+                final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("Rate App!");
+                alertDialog.setMessage("Are you sure you want to open Play store?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent playStore = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.hencesimplified.arrwallpaper"));
+                        startActivity(playStore);
+                    }
+                });
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialogInterface, i) -> alertDialog.dismiss());
+                alertDialog.show();
                 return true;
 
             case R.id.opt_more:
-                try {
+                final AlertDialog alertDialogMore = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialogMore.setTitle("More Apps!");
+                alertDialogMore.setMessage("Are you sure you want to open Play store?");
+                alertDialogMore.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/dev?id=7031227816779180923")));
+                        } catch (android.content.ActivityNotFoundException e) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/search?q=pub:Hence Simplified")));
+                        }
+                    }
+                });
 
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/dev?id=7031227816779180923")));
-                } catch (android.content.ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/search?q=pub:Hence Simplified")));
-                }
+                alertDialogMore.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialogInterface, i) -> alertDialogMore.dismiss());
+                alertDialogMore.show();
                 return true;
 
             case R.id.opt_about:

@@ -45,7 +45,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/buttonColor"
-        android:text="Set as Wallpaper"
+        android:text="Set Wallpaper"
         android:textColor="@color/fullBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

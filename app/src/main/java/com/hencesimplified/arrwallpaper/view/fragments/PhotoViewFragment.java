@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.snackbar.Snackbar;
 import com.hencesimplified.arrwallpaper.R;
 import com.hencesimplified.arrwallpaper.util.Util;
 import com.hencesimplified.arrwallpaper.viewmodel.PhotoViewModel;
@@ -87,10 +88,18 @@ public class PhotoViewFragment extends Fragment {
     }
 
     public void observeViewModel() {
-        photoViewModel.downloadError.observe(getActivity(), error -> {
+        photoViewModel.isDownloaded.observe(getActivity(), downloaded -> {
+            if (downloaded)
+                Snackbar.make(getView(), "Wallpaper downloaded Successfully!!", Snackbar.LENGTH_SHORT).show();
+            else
+                Snackbar.make(getView(), "Download Failed!", Snackbar.LENGTH_SHORT).show();
         });
 
-        photoViewModel.wallpaperError.observe(getActivity(), error -> {
+        photoViewModel.wallpaperSet.observe(getActivity(), wallpaperSet -> {
+            if (wallpaperSet)
+                Snackbar.make(getView(), "Wallpaper applied successfully!!", Snackbar.LENGTH_SHORT).show();
+            else
+                Snackbar.make(getView(), "Setting Wallpaper Failed!", Snackbar.LENGTH_SHORT).show();
         });
     }
 
