@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         bottomNavigationView = findViewById(R.id.bottomNav);
 
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 Intent page_intent = new Intent(this, AboutActivity.class);
                 startActivity(page_intent);
+                overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                 return true;
 
             default:
