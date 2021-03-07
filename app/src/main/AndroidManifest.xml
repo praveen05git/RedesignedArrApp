@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/arr_white"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.AboutActivity" />
         <activity android:name=".view.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

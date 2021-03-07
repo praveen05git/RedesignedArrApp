@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tabs_navigation"
-    app:startDestination="@id/event">
+    app:startDestination="@id/concert">
 
     <fragment
         android:id="@+id/event"
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_event_to_casual"
             app:destination="@id/casual" />
+        <action
+            android:id="@+id/eventToAbout"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoViewFragment"
@@ -26,21 +29,6 @@
             android:name="photoUrl"
             android:defaultValue="Empty"
             app:argType="string" />
-        <action
-            android:id="@+id/actionEvents"
-            app:destination="@id/event" />
-        <action
-            android:id="@+id/photosToConcert"
-            app:destination="@id/concert" />
-        <action
-            android:id="@+id/photosToInstrument"
-            app:destination="@id/instrument" />
-        <action
-            android:id="@+id/photosToCasual"
-            app:destination="@id/casual" />
-        <action
-            android:id="@+id/photosToFamily"
-            app:destination="@id/family" />
     </fragment>
     <fragment
         android:id="@+id/instrument"
@@ -53,6 +41,9 @@
         <action
             android:id="@+id/instrumentToPhotos"
             app:destination="@id/photoViewFragment" />
+        <action
+            android:id="@+id/instrumentToAbout"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/casual"
@@ -65,6 +56,9 @@
         <action
             android:id="@+id/casualToPhotos"
             app:destination="@id/photoViewFragment" />
+        <action
+            android:id="@+id/casualToAbout"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/concert"
@@ -77,6 +71,9 @@
         <action
             android:id="@+id/concertToPhotos"
             app:destination="@id/photoViewFragment" />
+        <action
+            android:id="@+id/concertToAbout"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/family"
@@ -86,5 +83,13 @@
         <action
             android:id="@+id/familyToPhotos"
             app:destination="@id/photoViewFragment" />
+        <action
+            android:id="@+id/familyToAbout"
+            app:destination="@id/aboutFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.hencesimplified.arrwallpaper.view.fragments.AboutFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_about" />
 </navigation>
