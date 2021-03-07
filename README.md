@@ -1,8 +1,7 @@
 <h1 align="center">ARR Galaxy (Redesigned)</h1>
 
 <p align="center">  
-Redesigned <a url="https://github.com/praveen05git/ArrGalaxy">ARR Galaxy App</a> to use mordern Android Jetpack components with minimal UI
-
+Redesigned <a href="https://github.com/praveen05git/ArrGalaxy">ARR Galaxy App</a> to use mordern Android Jetpack components with minimal UI</br>
 Want some AR Rahman Wallpapers...Say no more, we present you, ARR Galaxy!!</br>
 Setup or Download Free and exclusive A.R.Rahman High-Quality wallpapers!!</br>
 </p>
