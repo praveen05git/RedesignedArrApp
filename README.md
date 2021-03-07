@@ -1,4 +1,4 @@
-<h1 align="center">ARR Galaxy</h1>
+<h1 align="center">ARR Galaxy (Redesigned)</h1>
 
 <p align="center">  
 Want some AR Rahman Wallpapers...Say no more, we present you, ARR Galaxy!!</br>
@@ -25,13 +25,14 @@ Setup or Download Free and exclusive A.R.Rahman High-Quality wallpapers!!</br>
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 16
-- Java based
-- Wallpapers are displayed using Recycler View and Card View
+- Java based, MVVM and Single Architecture
+- JetPack components: Navigation, LiveData, ViewModel
+- Wallpapers are displayed and cached using Recycler View, Card View and Glide
+- Palette Library is used to set backgroud color depending on images
 - Images are stored in Firebase Cloud storage
 - Firebase Realtime Database(NoSql) is used to retrieve images
 - Fragments are used to display each category in Bottom Navigation
-- Shared preferences are used to store last visited category and resumes when app repoens
-- Custom Transition animations between activities</br>
+</br>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/praveen05git/ArrGalaxy/master/screenshots/Arr3.png"/>
