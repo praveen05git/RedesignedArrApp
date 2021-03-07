@@ -34,6 +34,7 @@ public class PhotoViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> isDownloaded = new MutableLiveData<>();
     public MutableLiveData<Boolean> wallpaperSet = new MutableLiveData<>();
+    public MutableLiveData<Boolean> permission = new MutableLiveData<>();
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
@@ -102,19 +103,20 @@ public class PhotoViewModel extends AndroidViewModel {
                             }
                         } else {
                             if (checkPermission()) {
+                                permission.setValue(true);
                                 String imagePath = Environment.getExternalStoragePublicDirectory(directory).getAbsolutePath();
-                                File image = new File(imagePath, fileName);
+                                File image = new File(imagePath);
                                 if (!image.exists()) {
                                     image.mkdirs();
                                 }
                                 try {
-                                    FileOutputStream outputStream = new FileOutputStream(image);
+                                    FileOutputStream outputStream = new FileOutputStream(image.getPath() + "/" + fileName);
                                     isDownloaded.setValue(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream));
                                 } catch (FileNotFoundException e) {
                                     isDownloaded.setValue(false);
                                 }
                             } else {
-                                Toast.makeText(getApplication(), "Permission not granted", Toast.LENGTH_LONG).show();
+                                permission.setValue(false);
                             }
                         }
                     }

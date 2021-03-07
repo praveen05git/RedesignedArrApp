@@ -1,5 +1,7 @@
 package com.hencesimplified.arrwallpaper.view.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.palette.graphics.Palette;
@@ -100,6 +104,17 @@ public class PhotoViewFragment extends Fragment {
             else
                 Snackbar.make(getView(), "Setting Wallpaper Failed!", Snackbar.LENGTH_SHORT).show();
         });
+
+        photoViewModel.permission.observe(getActivity(), permission -> {
+            if (!permission)
+                checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        });
+    }
+
+    public boolean checkPermission(String permission) {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        int check = ContextCompat.checkSelfPermission(getContext(), permission);
+        return (check == PackageManager.PERMISSION_GRANTED);
     }
 
     public void loadImage(ImageView imageView, String url, CircularProgressDrawable progressDrawable) {
