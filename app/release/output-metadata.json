@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "com.hencesimplified.arrwallpaper",
-  "variantName": "release",
+  "variantName": "processReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 3,
-      "versionName": "1.4",
-      "enabled": true,
+      "versionCode": 5,
+      "versionName": "5.7",
       "outputFile": "app-release.apk"
     }
   ]
